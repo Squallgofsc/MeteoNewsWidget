@@ -1,0 +1,10 @@
+{
+  "City": "VotreVille",
+  "OpenWeatherApiKey": "VOTRE_CLE_API_OPENWEATHERMAP",
+  "Units": "metric",
+  "Language": "fr",
+  "NewsThemeKeyword": "technologie",
+  "WikiUsername": "",
+  "WikiToken": "",
+  "AlwaysOnTop": true
+}

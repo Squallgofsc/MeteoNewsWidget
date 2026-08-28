@@ -1,0 +1,21 @@
+﻿# Fichier de configuration personnel (contient clé API, ville, token Wikipedia)
+# Ne JAMAIS committer ce fichier
+config.json
+
+# Dossiers de build
+bin/
+obj/
+
+# Fichiers Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docview
+
+# Fichiers de log
+*.log
+
+# Fichiers temporaires Windows
+Thumbs.db
+Desktop.ini

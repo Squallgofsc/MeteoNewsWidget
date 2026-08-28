@@ -1,0 +1,200 @@
+﻿<Window x:Class="MeteoNewsWidget.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MeteoNewsWidget"
+        Width="420" Height="360"
+        MinWidth="420" MinHeight="360"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ResizeMode="CanResizeWithGrip"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgBrush"         Color="#CC14141E"/>
+        <SolidColorBrush x:Key="AccentBrush"     Color="#FF64B4FF"/>
+        <SolidColorBrush x:Key="TextBrush"       Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="SubTextBrush"    Color="#FFAAAAAA"/>
+        <SolidColorBrush x:Key="TabActiveBrush"   Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="TabInactiveBrush" Color="#FF788090"/>
+
+        <Style x:Key="TabButtonStyle" TargetType="Button">
+            <Setter Property="Background"   Value="Transparent"/>
+            <Setter Property="BorderBrush"  Value="Transparent"/>
+            <Setter Property="Foreground"   Value="{StaticResource TabInactiveBrush}"/>
+            <Setter Property="FontSize"     Value="10"/>
+            <Setter Property="FontFamily"   Value="Segoe UI"/>
+            <Setter Property="Cursor"       Value="Hand"/>
+            <Setter Property="Padding"      Value="4,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SeparatorStyle" TargetType="Rectangle">
+            <Setter Property="Fill"   Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Height" Value="1"/>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="8"
+            Background="{StaticResource BgBrush}"
+            BorderBrush="#44FFFFFF"
+            BorderThickness="1">
+        <Grid Margin="12,10,12,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Ligne 0 : Ville + icône météo -->
+            <Grid Grid.Row="0">
+                <TextBlock x:Name="TxtCity"
+                           Text="Chargement..."
+                           FontSize="14" FontFamily="Segoe UI"
+                           Foreground="{StaticResource TextBrush}"
+                           VerticalAlignment="Center"/>
+                <Image x:Name="ImgWeatherIcon"
+                       Width="48" Height="48"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="0,-4,0,-4"/>
+            </Grid>
+
+            <!-- Ligne 1 : Température -->
+            <TextBlock x:Name="TxtTemp" Grid.Row="1"
+                       Text="--°C" FontSize="36" FontFamily="Segoe UI"
+                       FontWeight="Light"
+                       Foreground="{StaticResource AccentBrush}"
+                       Margin="0,-4,0,0"/>
+
+            <!-- Ligne 2 : Description -->
+            <TextBlock x:Name="TxtDesc" Grid.Row="2"
+                       FontSize="13" FontFamily="Segoe UI"
+                       Foreground="{StaticResource TextBrush}"
+                       Margin="0,0,0,2"/>
+
+            <!-- Ligne 3 : Prévisions -->
+            <StackPanel Grid.Row="3" Margin="0,0,0,4">
+                <TextBlock x:Name="TxtDay1" FontSize="11"
+                           FontFamily="Segoe UI"
+                           Foreground="{StaticResource TextBrush}"/>
+                <TextBlock x:Name="TxtDay2" FontSize="11"
+                           FontFamily="Segoe UI"
+                           Foreground="{StaticResource TextBrush}"/>
+            </StackPanel>
+
+            <!-- Ligne 4 : Séparateur -->
+            <Rectangle Grid.Row="4"
+                       Style="{StaticResource SeparatorStyle}"
+                       Margin="0,0,0,4"/>
+
+            <!-- Ligne 5 : Onglets actualités -->
+            <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,0,0,4">
+                <Button x:Name="BtnLocal" Style="{StaticResource TabButtonStyle}"
+                        Content="LOCAL" Click="BtnLocal_Click"/>
+                <Button x:Name="BtnNational" Style="{StaticResource TabButtonStyle}"
+                        Content="NATIONAL" Margin="8,0,0,0" Click="BtnNational_Click"/>
+                <Button x:Name="BtnIntl" Style="{StaticResource TabButtonStyle}"
+                        Content="INTL" Margin="8,0,0,0" Click="BtnIntl_Click"/>
+                <Button x:Name="BtnTheme" Style="{StaticResource TabButtonStyle}"
+                        Content="THEME" Margin="8,0,0,0" Click="BtnTheme_Click"
+                        ToolTip="Clic droit pour changer le mot-clé"
+                        MouseRightButtonUp="BtnTheme_RightClick"/>
+            </StackPanel>
+
+            <!-- Ligne 6 : Article actualité -->
+            <TextBlock x:Name="TxtNews" Grid.Row="6"
+                       FontSize="12" FontFamily="Segoe UI"
+                       Foreground="{StaticResource TextBrush}"
+                       TextTrimming="CharacterEllipsis"
+                       Cursor="Hand"
+                       PreviewMouseLeftButtonUp="TxtNews_Click"
+                       Margin="0,0,0,6"/>
+
+            <!-- Ligne 7 : Séparateur Wikipedia -->
+            <Rectangle Grid.Row="7"
+                       Style="{StaticResource SeparatorStyle}"
+                       Margin="0,0,0,4"/>
+
+            <!-- Ligne 8 : Label Wikipedia avec logo -->
+            <StackPanel Grid.Row="8" Orientation="Horizontal" Margin="0,0,0,4">
+                <Image x:Name="ImgWikiLogo"
+           Width="16" Height="16"
+           Margin="0,0,4,0"
+           VerticalAlignment="Center"/>
+                <TextBlock x:Name="TxtWikiLabel"
+               Text="WIKIPEDIA"
+               FontSize="9" FontFamily="Segoe UI"
+               Foreground="{StaticResource AccentBrush}"
+               VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Ligne 9 : Article du jour Wikipedia -->
+            <TextBlock x:Name="TxtWikiDaily" Grid.Row="9"
+                       FontSize="11" FontFamily="Segoe UI"
+                       Foreground="{StaticResource TextBrush}"
+                       TextTrimming="CharacterEllipsis"
+                       Cursor="Hand"
+                       PreviewMouseLeftButtonUp="TxtWikiDaily_Click"
+                       Margin="0,0,0,6"/>
+
+            <!-- Ligne 10 : Séparateur watchlist (visible si compte renseigné) -->
+            <Rectangle x:Name="SepWatchlist" Grid.Row="10"
+                       Style="{StaticResource SeparatorStyle}"
+                       Margin="0,0,0,4"
+                       Visibility="Collapsed"/>
+
+            <!-- Ligne 11 : Label watchlist (visible si compte renseigné) -->
+            <TextBlock x:Name="TxtWatchlistLabel" Grid.Row="11"
+                       Text="Dernières modifications des pages surveillées"
+                       FontSize="9" FontFamily="Segoe UI"
+                       Foreground="{StaticResource AccentBrush}"
+                       Margin="0,0,0,4"
+                       Visibility="Collapsed"/>
+
+            <!-- Ligne 12 : Modifications watchlist (visible si compte renseigné) -->
+            <TextBlock x:Name="TxtWiki" Grid.Row="12"
+                       FontSize="11" FontFamily="Segoe UI"
+                       Foreground="{StaticResource TextBrush}"
+                       TextTrimming="CharacterEllipsis"
+                       Cursor="Hand"
+                       PreviewMouseLeftButtonUp="TxtWiki_Click"
+                       Margin="0,0,0,6"
+                       Visibility="Collapsed"/>
+
+            <!-- Ligne 13 : Boutons paramètres / fermer -->
+            <StackPanel Grid.Row="13"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button x:Name="BtnSettings" Content="⚙" FontSize="14"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Foreground="{StaticResource SubTextBrush}"
+                        Cursor="Hand" Click="BtnSettings_Click"
+                        ToolTip="Paramètres"/>
+                <Button x:Name="BtnClose" Content="✕" FontSize="12"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Foreground="{StaticResource SubTextBrush}"
+                        Cursor="Hand" Margin="8,0,0,0"
+                        Click="BtnClose_Click" ToolTip="Fermer"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
